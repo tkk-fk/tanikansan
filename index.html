@@ -33,7 +33,7 @@
 </head>
 <body class="bg-blue-100 flex items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 md:p-8">
+    <div class="w-full max-w-5xl bg-white rounded-2xl shadow-lg p-6 md:p-8">
         
         <!-- ヘッダー部分 -->
         <header class="text-center mb-6">
@@ -57,6 +57,9 @@
             </button>
             <button data-category="bulk" class="category-btn bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
                 🧊 体積
+            </button>
+            <button data-category="time" class="category-btn bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                ⏱️ 時間
             </button>
         </div>
 
@@ -117,7 +120,7 @@
                     <input type="number" data-unit="dl" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
                 </div>
                  <div class="bg-purple-100 p-4 rounded-lg text-center">
-                    <label class="font-bold text-purple-800">ミリリットル (mL)・シーシー（cc）</label>
+                    <label class="font-bold text-purple-800">ミリリットル (mL)・シーシー(CC)</label>
                     <input type="number" data-unit="ml" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
                 </div>
             </div>
@@ -165,6 +168,30 @@
                     <input type="number" data-unit="mm3" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
             </div>
+            
+            <!-- 時間のパネル -->
+            <div id="time-panel" class="converter-panel hidden grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div class="bg-sky-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-sky-800">週 (week)</label>
+                    <input type="number" data-unit="week" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div class="bg-sky-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-sky-800">日 (day)</label>
+                    <input type="number" data-unit="day" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div class="bg-sky-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-sky-800">時 (hour)</label>
+                    <input type="number" data-unit="hour" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                <div class="bg-sky-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-sky-800">分 (min)</label>
+                    <input type="number" data-unit="min" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+                 <div class="bg-sky-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-sky-800">秒 (sec)</label>
+                    <input type="number" data-unit="sec" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                </div>
+            </div>
 
         </div>
     </div>
@@ -203,6 +230,13 @@
                 m3: 1,
                 cm3: 0.000001,
                 mm3: 0.000000001
+            },
+            time: { // 時間の基準は「秒」
+                week: 604800, // 7 * 24 * 60 * 60
+                day: 86400,   // 24 * 60 * 60
+                hour: 3600,   // 60 * 60
+                min: 60,
+                sec: 1
             }
         };
 
