@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>たのしい！単位換算アプリ</title>
+    <!-- Tailwind CSS を読み込みます -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts から、子供向けの丸いフォントを読み込みます -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 読み込んだフォントを全体に適用します */
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+        /* 数字入力フィールドの矢印を非表示にして、見た目をすっきりさせます */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        /* アクティブなボタンのスタイル */
+        .category-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-blue-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        
+        <!-- ヘッダー部分 -->
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-600">✨ たのしい！単位換算 ✨</h1>
+            <p class="text-gray-500 mt-2">数字をいれると、ぜんぶの単位がかわるよ！</p>
+        </header>
+
+        <!-- 単位の種類を選ぶボタン -->
+        <div id="category-buttons" class="flex flex-wrap justify-center gap-3 md:gap-4 mb-6">
+            <button data-category="length" class="category-btn active bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                📏 ながさ
+            </button>
+            <button data-category="weight" class="category-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                ⚖️ おもさ
+            </button>
+            <button data-category="volume" class="category-btn bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                💧 かさ
+            </button>
+            <button data-category="area" class="category-btn bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                🏞️ ひろさ
+            </button>
+            <button data-category="bulk" class="category-btn bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-200 ease-in-out">
+                🧊 体積
+            </button>
+        </div>
+
+        <!-- 単位換算のパネル -->
+        <div id="converter-panels">
+            <!-- ながさのパネル -->
+            <div id="length-panel" class="converter-panel grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-green-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-green-800">キロメートル (km)</label>
+                    <input type="number" data-unit="km" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="bg-green-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-green-800">メートル (m)</label>
+                    <input type="number" data-unit="m" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="bg-green-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-green-800">センチメートル (cm)</label>
+                    <input type="number" data-unit="cm" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                 <div class="bg-green-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-green-800">ミリメートル (mm)</label>
+                    <input type="number" data-unit="mm" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+            </div>
+
+            <!-- おもさのパネル -->
+            <div id="weight-panel" class="converter-panel hidden grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-yellow-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-yellow-800">トン (t)</label>
+                    <input type="number" data-unit="t" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-yellow-800">キログラム (kg)</label>
+                    <input type="number" data-unit="kg" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-yellow-800">グラム (g)</label>
+                    <input type="number" data-unit="g" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+                <div class="bg-yellow-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-yellow-800">ミリグラム (mg)</label>
+                    <input type="number" data-unit="mg" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                </div>
+            </div>
+
+            <!-- かさのパネル -->
+            <div id="volume-panel" class="converter-panel hidden grid grid-cols-2 md:grid-cols-4 gap-4">
+                 <div class="bg-purple-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-purple-800">キロリットル (kL)</label>
+                    <input type="number" data-unit="kl" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                <div class="bg-purple-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-purple-800">リットル (L)</label>
+                    <input type="number" data-unit="l" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                <div class="bg-purple-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-purple-800">デシリットル (dL)</label>
+                    <input type="number" data-unit="dl" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                 <div class="bg-purple-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-purple-800">ミリリットル (mL)</label>
+                    <input type="number" data-unit="ml" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+            </div>
+            
+            <!-- ひろさのパネル -->
+            <div id="area-panel" class="converter-panel hidden grid grid-cols-2 md:grid-cols-3 gap-4">
+                 <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">平方km (km²)</label>
+                    <input type="number" data-unit="km2" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">ヘクタール (ha)</label>
+                    <input type="number" data-unit="ha" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">アール (a)</label>
+                    <input type="number" data-unit="a" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">平方メートル (m²)</label>
+                    <input type="number" data-unit="m2" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">平方cm (cm²)</label>
+                    <input type="number" data-unit="cm2" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-red-800">平方mm (mm²)</label>
+                    <input type="number" data-unit="mm2" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-red-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+            </div>
+
+            <!-- 体積のパネル -->
+            <div id="bulk-panel" class="converter-panel hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+                 <div class="bg-orange-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-orange-800">立方メートル (m³)</label>
+                    <input type="number" data-unit="m3" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+                <div class="bg-orange-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-orange-800">立方cm (cm³)</label>
+                    <input type="number" data-unit="cm3" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+                <div class="bg-orange-100 p-4 rounded-lg text-center">
+                    <label class="font-bold text-orange-800">立方mm (mm³)</label>
+                    <input type="number" data-unit="mm3" class="w-full mt-2 p-2 text-center text-lg font-bold rounded-md border-2 border-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- 設定 ---
+        // 各単位の基準となる単位からの倍率を定義します。
+        const conversionRates = {
+            length: { // ながさの基準は「メートル」
+                km: 1000,
+                m: 1,
+                cm: 0.01,
+                mm: 0.001
+            },
+            weight: { // おもさの基準は「グラム」
+                t: 1000000,
+                kg: 1000,
+                g: 1,
+                mg: 0.001
+            },
+            volume: { // かさの基準は「リットル」
+                kl: 1000,
+                l: 1,
+                dl: 0.1,
+                ml: 0.001
+            },
+            area: { // ひろさの基準は「平方メートル」
+                km2: 1000000,
+                ha: 10000,
+                a: 100,
+                m2: 1,
+                cm2: 0.0001,
+                mm2: 0.000001
+            },
+            bulk: { // 体積の基準は「立方メートル」
+                m3: 1,
+                cm3: 0.000001,
+                mm3: 0.000000001
+            }
+        };
+
+        // --- DOM要素の取得 ---
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const converterPanels = document.querySelectorAll('.converter-panel');
+        const numberInputs = document.querySelectorAll('input[type="number"]');
+
+        let activeCategory = 'length'; // 最初は「ながさ」を表示
+
+        // --- イベントリスナーの設定 ---
+
+        // カテゴリーボタンがクリックされた時の処理
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // クリックされたボタンからカテゴリー名を取得
+                const category = button.dataset.category;
+                activeCategory = category;
+
+                // すべてのボタンから active クラスを削除
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                // クリックされたボタンに active クラスを追加
+                button.classList.add('active');
+
+                // すべてのパネルを非表示にする
+                converterPanels.forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+
+                // 対応するパネルだけを表示する
+                const activePanel = document.getElementById(`${category}-panel`);
+                activePanel.classList.remove('hidden');
+                
+                // パネルを切り替えたら、入力欄をすべてクリアする
+                clearAllInputs(category);
+            });
+        });
+
+        // 数字が入力された時の処理
+        numberInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                const sourceUnit = e.target.dataset.unit;
+                const sourceValue = parseFloat(e.target.value);
+                
+                // 入力が有効な数字でなければ処理を中断
+                if (isNaN(sourceValue)) {
+                    clearAllInputs(activeCategory, e.target);
+                    return;
+                }
+
+                convertUnits(activeCategory, sourceUnit, sourceValue);
+            });
+        });
+
+        // --- 関数 ---
+
+        /**
+         * 単位を換算して、すべての入力欄を更新する関数
+         * @param {string} category - 単位の種類 (e.g., 'length')
+         * @param {string} sourceUnit - 入力された単位 (e.g., 'km')
+         * @param {number} sourceValue - 入力された値
+         */
+        function convertUnits(category, sourceUnit, sourceValue) {
+            const rates = conversionRates[category];
+            // 基準単位での値に変換 (例: 1km -> 1000m)
+            const baseValue = sourceValue * rates[sourceUnit];
+
+            // 現在のカテゴリーのすべての入力欄をループ
+            const currentPanelInputs = document.querySelectorAll(`#${category}-panel input`);
+            currentPanelInputs.forEach(input => {
+                const targetUnit = input.dataset.unit;
+                // 自分自身は更新しない（入力の邪魔をしないため）
+                if (targetUnit === sourceUnit) return;
+
+                // 基準単位の値から、各単位の値に変換 (例: 1000m -> 100000cm)
+                const targetValue = baseValue / rates[targetUnit];
+                
+                // 計算結果を、小数点以下の不要な0を消して表示する
+                input.value = Number(targetValue.toPrecision(15));
+            });
+        }
+        
+        /**
+         * 指定されたカテゴリーのすべての入力欄をクリアする関数
+         * @param {string} category - 単位の種類
+         * @param {HTMLElement} [exceptInput=null] - クリア処理から除外する入力欄
+         */
+        function clearAllInputs(category, exceptInput = null) {
+             const currentPanelInputs = document.querySelectorAll(`#${category}-panel input`);
+             currentPanelInputs.forEach(input => {
+                if(input !== exceptInput) {
+                    input.value = '';
+                }
+             });
+        }
+
+    </script>
+</body>
+</html>
+
